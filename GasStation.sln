@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasStation.Test", "GasStation.Test\GasStation.Test.csproj", "{7D84F9AF-0E42-475F-866B-B9296F5BF4A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasStation.Businesslogic", "GasStation.Businesslogic\GasStation.Businesslogic.csproj", "{8230989C-A1C4-4F75-9ED5-D0F40864F071}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Businesslogic", "Businesslogic\Businesslogic.csproj", "{614C8991-FBFD-4CA3-BD96-BEB7E9436D53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8230989C-A1C4-4F75-9ED5-D0F40864F071}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8230989C-A1C4-4F75-9ED5-D0F40864F071}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8230989C-A1C4-4F75-9ED5-D0F40864F071}.Release|Any CPU.Build.0 = Release|Any CPU
+		{614C8991-FBFD-4CA3-BD96-BEB7E9436D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{614C8991-FBFD-4CA3-BD96-BEB7E9436D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{614C8991-FBFD-4CA3-BD96-BEB7E9436D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{614C8991-FBFD-4CA3-BD96-BEB7E9436D53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
