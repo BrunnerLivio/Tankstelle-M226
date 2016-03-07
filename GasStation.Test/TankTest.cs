@@ -16,9 +16,7 @@ namespace GasStation.Test
         {
             Tank tank = new Tank(FuelType.Petrol, 1000);
             tank.AddFuel(100);
-            Assert.Equals(tank.FilledCapacity, 100);
-
-
+            Assert.AreEqual(100, tank.FilledCapacity);
         }
     }
 }

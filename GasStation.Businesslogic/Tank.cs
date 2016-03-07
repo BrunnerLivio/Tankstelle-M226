@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AnttittyFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace GasStation.Businesslogic
         {
             this.fuelType = fuelType;
             this.maxCapacity = maxCapacity;
+            DBContainer dbContainer = new DBContainer();
+            dbContainer.Save(this);
         }
         /// <summary>
         /// Adds the given amount to the filled Capacity
@@ -44,6 +47,9 @@ namespace GasStation.Businesslogic
             }
         }
         #region Properties
+        /// <summary>
+        /// Gives the filled Capacity back in Milliliters
+        /// </summary>
         public int FilledCapacity
         {
             get
@@ -51,7 +57,7 @@ namespace GasStation.Businesslogic
                 return filledCapacity;
             }
         }
-
         #endregion
+
     }
 }
