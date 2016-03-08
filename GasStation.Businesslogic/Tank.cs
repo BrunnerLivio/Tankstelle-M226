@@ -6,7 +6,8 @@ using System.Text;
 
 namespace GasStation.Businesslogic
 {
-    public class Tank
+    [Serializable]
+    public class Tank : DbItem
     {
         #region Membervariables
         private FuelType fuelType;
@@ -24,8 +25,6 @@ namespace GasStation.Businesslogic
         {
             this.fuelType = fuelType;
             this.maxCapacity = maxCapacity;
-            DBContainer dbContainer = new DBContainer();
-            dbContainer.Save(this);
         }
         /// <summary>
         /// Adds the given amount to the filled Capacity
@@ -55,6 +54,16 @@ namespace GasStation.Businesslogic
             get
             {
                 return filledCapacity;
+            }
+        }
+        /// <summary>
+        /// Gives the maximal Capacity back in Milliliters
+        /// </summary>
+        public int MaxCapacity
+        {
+            get
+            {
+                return maxCapacity;
             }
         }
         #endregion
