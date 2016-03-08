@@ -27,7 +27,19 @@ namespace GasStation.Test
             tank.AddFuel(100);
             tank.Save();
         }
-        
+        [TestMethod]
+        public void UpdateTankTest()
+        {
+            Tank tank = new Tank(FuelType.Petrol, 4000);
+            tank.AddFuel(100);
+            tank.Save();
+            tank.AddFuel(200);
+            tank.Save();
+            DbContext dbContext = new DbContext();
+            tank = dbContext.Load<Tank>().Last();
+            Assert.AreEqual(300, tank.FilledCapacity);
+        }
+
         [TestMethod]
         public void LoadTankTest()
         {
@@ -45,9 +57,6 @@ namespace GasStation.Test
             tank.Remove();
 
             Assert.AreEqual(dbContext.Load<Tank>().Count, oldTankCount - 1);
-
-
-
         }
     }
 }
