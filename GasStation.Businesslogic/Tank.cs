@@ -10,7 +10,7 @@ namespace GasStation.Businesslogic
     public class Tank : DbItem
     {
         #region Membervariables
-        private FuelType fuelType;
+        private Fuel fuel;
         //In Milliliter
         private int maxCapacity;
         //In Milliliter
@@ -21,9 +21,9 @@ namespace GasStation.Businesslogic
         /// </summary>
         /// <param name="fuelType">The type of the Tanks Fuel</param>
         /// <param name="maxCapacity">The Maximum Capacity of the Tank in Milliliters</param>
-        public Tank(FuelType fuelType, int maxCapacity)
+        public Tank(Fuel fuel, int maxCapacity)
         {
-            this.fuelType = fuelType;
+            this.fuel = fuel;
             this.maxCapacity = maxCapacity;
         }
         /// <summary>

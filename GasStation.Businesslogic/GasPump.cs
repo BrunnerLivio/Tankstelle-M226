@@ -9,6 +9,7 @@ namespace GasStation.Businesslogic
     [Serializable]
     public class GasPump
     {
+        public List<GasTap> gasTaps;
         private GasStation gasStation;
         public GasPump(GasStation gasStation)
         {

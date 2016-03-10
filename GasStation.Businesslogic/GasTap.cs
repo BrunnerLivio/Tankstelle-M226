@@ -13,5 +13,11 @@ namespace GasStation.Businesslogic
     [Serializable]
     public class GasTap : DbItem
     {
+        private GasPump gasPump;
+        public Fuel fuel;   
+        public void Use()
+        {
+
+        }
     }
 }
