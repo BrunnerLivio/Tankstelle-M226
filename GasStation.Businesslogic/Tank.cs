@@ -66,6 +66,16 @@ namespace GasStation.Businesslogic
                 return maxCapacity;
             }
         }
+        /// <summary>
+        /// Gets the Fuel of the Tank
+        /// </summary>
+        public Fuel Fuel
+        {
+            get
+            {
+                return fuel;
+            }
+        }
         #endregion
 
     }
