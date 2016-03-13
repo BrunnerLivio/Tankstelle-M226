@@ -15,7 +15,7 @@ namespace GasStation.Test
         [TestMethod]
         public void AddFuelTest()
         {
-            Tank tank = new Tank(new Fuel(), 1000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 1000);
             tank.AddFuel(100);
             Assert.AreEqual(100, tank.FilledCapacity);
         }
@@ -23,14 +23,14 @@ namespace GasStation.Test
         [TestMethod]
         public void SaveTankTest()
         {
-            Tank tank = new Tank(new Fuel(), 1000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 1000);
             tank.AddFuel(100);
             tank.Save();
         }
         [TestMethod]
         public void UpdateTankTest()
         {
-            Tank tank = new Tank(new Fuel(), 4000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 4000);
             tank.AddFuel(100);
             tank.Save();
             tank.AddFuel(200);
@@ -51,7 +51,7 @@ namespace GasStation.Test
         public void DeleteTankTest()
         {
             DbContext dbContext = new DbContext();
-            Tank tank = new Tank(new Fuel(), 3000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 3000);
             tank.Save();
             int oldTankCount = dbContext.Load<Tank>().Count;
             tank.Remove();
