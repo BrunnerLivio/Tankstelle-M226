@@ -31,6 +31,14 @@ namespace Businesslogic
                 return money;
             }
         }
+        public void Accept()
+        {
+            //PayStation payStation = new PayStation();
+            //foreach(Coin coin in InsertedMoney)
+            //{
+            //    payStation.CoinContainers.Where(c => c.Cointype == coin).First().AddCoins(1);
+            //}
+        }
 
         public List<Coin> InsertedMoney
         {

@@ -11,17 +11,14 @@ namespace GasStation.Businesslogic
     {
         public List<GasTap> gasTaps = new List<GasTap>();
         private GasStation gasStation;
-        private Tank tank;
 
         /// <summary>
         /// Initializes a GasPump
         /// </summary>
         /// <param name="gasStation">The relevant gas station</param>
-        /// <param name="tank">The tank where the fuel should be drained</param>
-        public GasPump(GasStation gasStation, Tank tank)
+        public GasPump(GasStation gasStation)
         {
             this.gasStation = gasStation;
-            this.tank = tank;
         }
         /// <summary>
         /// Locks all the Gas Taps from this Gas Pump expect the given
@@ -38,14 +35,16 @@ namespace GasStation.Businesslogic
         {
             gasTaps.ForEach(g => g.IsLocked = false);
         }
+
+
         /// <summary>
-        /// Gives the relevant Tank back
+        /// Gives the GasTaps of this GasPump back.
         /// </summary>
-        public Tank Tank
+        public List<GasTap> GasTaps
         {
             get
             {
-                return tank;
+                return gasTaps;
             }
         }
     }

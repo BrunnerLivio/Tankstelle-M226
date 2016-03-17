@@ -20,9 +20,9 @@ namespace GasStation.Test
             {
                 tank.AddFuel(1000);
             }
-            gasPump = new GasPump(gasStation, tank);
-            gasPump.gasTaps.Add(new GasTap(petrolFuel, gasPump));
-            gasPump.gasTaps.Add(new GasTap(dieselFuel, gasPump));
+            gasPump = new GasPump(gasStation);
+            gasPump.gasTaps.Add(new GasTap(tank, gasPump));
+            gasPump.gasTaps.Add(new GasTap(tank, gasPump));
 
 
         }
@@ -53,7 +53,7 @@ namespace GasStation.Test
             using (GasTapTransaction transaction = selectedGasTap.Use())
             {
 
-                Assert.AreEqual(5000, selectedGasTap.GasPump.Tank.FilledCapacity);
+                Assert.AreEqual(5000, selectedGasTap.Tank.FilledCapacity);
 
                 while (transaction.UsedFuel < 1000)
                 {
@@ -62,7 +62,7 @@ namespace GasStation.Test
 
                 Assert.AreEqual(1000, transaction.UsedFuel);
 
-                Assert.AreEqual(4000, selectedGasTap.GasPump.Tank.FilledCapacity);
+                Assert.AreEqual(4000, selectedGasTap.Tank.FilledCapacity);
 
                 Assert.AreEqual(2 * 1000, transaction.Cost);
             }

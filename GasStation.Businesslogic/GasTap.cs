@@ -14,17 +14,17 @@ namespace GasStation.Businesslogic
     public class GasTap : DbItem
     {
         private GasPump gasPump;
-        public Fuel fuel;   
         private bool isLocked = false;
+        private Tank tank;
         private bool isInUse;
         /// <summary>
         /// Initializes a GasTap
         /// </summary>
-        /// <param name="fuel">The fueltype of the GasTap</param>
+        /// <param name="tank">The tank of the Gas Tap, where the fuel should be drained </param>
         /// <param name="gasPump">The Gas Pump which the GasTap belongs</param>
-        public GasTap(Fuel fuel, GasPump gasPump)
+        public GasTap(Tank tank, GasPump gasPump)
         {
-            this.fuel = fuel;
+            this.tank = tank;
             this.gasPump = gasPump;
         }
         /// <summary>
@@ -78,6 +78,13 @@ namespace GasStation.Businesslogic
             get
             {
                 return gasPump;
+            }
+        }
+        public Tank Tank
+        {
+            get
+            {
+                return tank;
             }
         }
     }

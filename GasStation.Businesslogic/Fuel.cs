@@ -11,29 +11,37 @@ namespace GasStation.Businesslogic
     {
         #region membervariables
         private string name;
-        private int pricePerMilliliters;
+        private int rappenPerMilliliters;
         #endregion
 
         #region constructors
         /// <summary>
         /// Initializes a Fuel
         /// </summary>
-        /// <param name="price">The Price of the Fuel per Milliliters</param>
+        /// <param name="price">Rappen of the Fuel per Milliliters</param>
         /// <param name="name">The Name of the Fuel e.g. "Petrol"</param>
-        public Fuel(int pricePerMilliliters, string name)
+        public Fuel(int rappenPerMilliliters, string name)
         {
             this.name = name;
-            this.pricePerMilliliters = pricePerMilliliters;
+            this.rappenPerMilliliters = rappenPerMilliliters;
         }
 
         /// <summary>
-        /// Gets the price per milliliters of this fuel type.
+        /// Gets rappen per milliliters of this fuel type.
         /// </summary>
-        public int PricePerMilliliters
+        public int RappenPerMilliliters
         {
             get
             {
-                return pricePerMilliliters;
+                return rappenPerMilliliters;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return name;
             }
         }
         #endregion

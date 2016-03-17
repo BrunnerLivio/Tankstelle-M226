@@ -43,10 +43,19 @@ namespace GasStation.Businesslogic
         /// Use the Tank
         /// </summary>
         /// <param name="amount">Amount in milliliters</param>
+        /// <exception cref="Exception">When the Gastap of the Transaction is not in use</exception>
         public void TankUp(int amount)
         {
-            usedFuel += amount;
-            gasTap.GasPump.Tank.AddFuel(amount * -1);
+            if (gasTap.IsInUse)
+            {
+                usedFuel += amount;
+                gasTap.Tank.AddFuel(amount * -1);
+            }
+            else
+            {
+                throw new Exception("Zapfsäule wird nicht benutzt. Wählen Sie zuerst eine Zapfsäule, bevor Sie Tanken.");
+            }
+
         }
 
         /// <summary>
@@ -56,7 +65,7 @@ namespace GasStation.Businesslogic
         {
             get
             {
-                return usedFuel * gasTap.GasPump.Tank.Fuel.PricePerMilliliters;
+                return usedFuel * gasTap.Tank.Fuel.RappenPerMilliliters;
             }
         }
     }

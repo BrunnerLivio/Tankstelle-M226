@@ -83,7 +83,13 @@ namespace Businesslogic
         }
         #endregion
         #region Properties
-
+        public List<CoinContainer> CoinContainers
+        {
+            get
+            {
+                return coinContainers;
+            }
+        }
         #endregion
     }
 }

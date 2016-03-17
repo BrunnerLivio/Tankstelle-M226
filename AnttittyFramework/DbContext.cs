@@ -23,6 +23,7 @@ namespace AnttittyFramework
             List<T> items = new List<T>();
             string objectType = typeof(T).Name;
             string filesPath = Path.Combine(path, objectType);
+            //Todo: Kein Try -Catch
             try
             {
                 foreach (string file in Directory.GetFiles(filesPath))

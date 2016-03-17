@@ -26,7 +26,26 @@ namespace GasStation.Businesslogic
         #region Methods
         #endregion
         #region Properties
-        
+        /// <summary>
+        /// Gets all Tanks of the Gas Station
+        /// </summary>
+        public List<Tank> Tanks
+        {
+            get
+            {
+                return tanks;
+            }
+        }
+        /// <summary>
+        /// Gets all Gas Pumps of the Gas Station
+        /// </summary>
+        public List<GasPump> GasPumps
+        {
+            get
+            {
+                return gasPumps;
+            }
+        }
         #endregion
     }
 }
