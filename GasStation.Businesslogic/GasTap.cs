@@ -15,9 +15,70 @@ namespace GasStation.Businesslogic
     {
         private GasPump gasPump;
         public Fuel fuel;   
-        public void Use()
+        private bool isLocked = false;
+        private bool isInUse;
+        /// <summary>
+        /// Initializes a GasTap
+        /// </summary>
+        /// <param name="fuel">The fueltype of the GasTap</param>
+        /// <param name="gasPump">The Gas Pump which the GasTap belongs</param>
+        public GasTap(Fuel fuel, GasPump gasPump)
         {
+            this.fuel = fuel;
+            this.gasPump = gasPump;
+        }
+        /// <summary>
+        /// Gives back if the Gas Tap is locked and sets it
+        /// </summary>
+        public bool IsLocked
+        {
+            get
+            {
+                return isLocked;
+            }
+            set
+            {
+                isLocked = value;
+            }
+        }
 
+        /// <summary>
+        /// Gives back if the GasTap is in use
+        /// </summary>
+        public bool IsInUse
+        {
+            get
+            {
+                return isInUse;
+            }
+            set
+            {
+                isInUse = value;
+            }
+        }
+        /// <summary>
+        /// Uses the Gas Tap and Locks all the other Gas Taps from this GasPump
+        /// </summary>
+        /// <exception cref="Exception">When the Gas Tap is locked</exception>
+        public GasTapTransaction Use()
+        {
+            if (isLocked)
+            {
+                throw new Exception("Gas Tap is locked");
+            }
+            
+            return new GasTapTransaction(this);
+        }
+        
+        /// <summary>
+        /// Gets the parent gas pump
+        /// </summary>
+        public GasPump GasPump
+        {
+            get
+            {
+                return gasPump;
+            }
         }
     }
 }

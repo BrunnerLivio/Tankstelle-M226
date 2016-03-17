@@ -13,7 +13,6 @@ namespace AnttittyFramework
     [Serializable]
     public abstract class DbItem
     {
-        [NonSerialized]
         private string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"fuck\de\jonas");
 
         private string guid;
@@ -38,7 +37,13 @@ namespace AnttittyFramework
         /// </summary>
         public void Save()
         {
-            if (String.IsNullOrEmpty(guid))
+            string fileToUpdate = null;
+            if (!String.IsNullOrEmpty(guid))
+            {
+                fileToUpdate = Directory.GetFiles(SavePath).Where(f => Path.GetFileName(f).StartsWith(guid)).FirstOrDefault();
+            }
+
+            if (fileToUpdate == null)
             {
                 //Add
                 guid = Guid.NewGuid().ToString();
@@ -52,7 +57,6 @@ namespace AnttittyFramework
             }
             else
             {
-                string fileToUpdate = Directory.GetFiles(SavePath).Where(f => Path.GetFileName(f).StartsWith(guid)).Single();
                 using (Stream stream = File.Open(fileToUpdate, FileMode.Create))
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
