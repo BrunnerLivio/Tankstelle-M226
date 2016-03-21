@@ -19,6 +19,8 @@ namespace GasStation.Test
         GasTap gasTap;
         GasPump gasPump1;
         GasPump gasPump2;
+        GasPump selectedGasPump;
+
         private void Init()
         {
             gasStation = new Businesslogic.GasStation("Jonas & Livios Tankstelle");
@@ -75,6 +77,14 @@ namespace GasStation.Test
             }
             
         }
+       [TestMethod]
+        public void Punkt1()
+        {
+            Init();
+            selectedGasPump = gasStation.GasPumps.First();
+            Assert.AreEqual("Gas Pump 1", selectedGasPump.Name);
+        }
+
         [TestMethod]
         public void Punkt16()
         {
