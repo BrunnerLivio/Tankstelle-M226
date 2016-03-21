@@ -11,13 +11,14 @@ namespace GasStation.Businesslogic
     {
         public List<GasTap> gasTaps = new List<GasTap>();
         private GasStation gasStation;
-
+        private string name;
         /// <summary>
         /// Initializes a GasPump
         /// </summary>
         /// <param name="gasStation">The relevant gas station</param>
-        public GasPump(GasStation gasStation)
+        public GasPump(GasStation gasStation, string name)
         {
+            this.name = name;
             this.gasStation = gasStation;
         }
         /// <summary>
@@ -45,6 +46,27 @@ namespace GasStation.Businesslogic
             get
             {
                 return gasTaps;
+            }
+        }
+
+        /// <summary>
+        /// Gibt den Anzeigenamen der GasPump zurück.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+        /// <summary>
+        /// Gibt die Gas Station zurück
+        /// </summary>
+        public GasStation GasStation
+        {
+            get
+            {
+                return gasStation;
             }
         }
     }

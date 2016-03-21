@@ -62,6 +62,10 @@
       <Project>{780a2fb1-8093-46fd-8c24-1df49ff83f14}</Project>
       <Name>AnttittyFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Businesslogic\PayStation.Businesslogic.csproj">
+      <Project>{614c8991-fbfd-4ca3-bd96-beb7e9436d53}</Project>
+      <Name>PayStation.Businesslogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GasStation.Businesslogic\GasStation.Businesslogic.csproj">
       <Project>{8230989c-a1c4-4f75-9ed5-d0f40864f071}</Project>
       <Name>GasStation.Businesslogic</Name>

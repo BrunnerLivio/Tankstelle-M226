@@ -52,6 +52,7 @@
     <Compile Include="GasStation.cs" />
     <Compile Include="GasTap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receipt.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="GasTapTransaction.cs" />
   </ItemGroup>

@@ -13,14 +13,14 @@ namespace GasStation.Test
         Fuel dieselFuel = new Fuel(3, "Diesel");
         private void Init()
         {
-            Businesslogic.GasStation gasStation = new Businesslogic.GasStation();
+            Businesslogic.GasStation gasStation = new Businesslogic.GasStation("Jonas & Livios Tankstelle");
 
             Tank tank = new Tank(petrolFuel, 5000);
             while(tank.FilledCapacity < tank.MaxCapacity)
             {
                 tank.AddFuel(1000);
             }
-            gasPump = new GasPump(gasStation);
+            gasPump = new GasPump(gasStation, "Gas Pump 1");
             gasPump.gasTaps.Add(new GasTap(tank, gasPump));
             gasPump.gasTaps.Add(new GasTap(tank, gasPump));
 

@@ -15,31 +15,30 @@ namespace Businesslogic
         #region Constructors
         public PayStation()
         {
-            coinContainers.Add(new CoinContainer(Coin.FiveRappen, 500));
-            coinContainers.Add(new CoinContainer(Coin.TenRappen, 500));
-            coinContainers.Add(new CoinContainer(Coin.TwentyRappen, 500));
-            coinContainers.Add(new CoinContainer(Coin.FiftyRappen, 500));
-            coinContainers.Add(new CoinContainer(Coin.OneFranc, 500));
-            coinContainers.Add(new CoinContainer(Coin.TwoFrancs, 500));
-            coinContainers.Add(new CoinContainer(Coin.FiveFrancs, 500));
-
+            foreach (Coin coin in Enum.GetValues(typeof(Coin)))
+            {
+                CoinContainer coinContainer = new CoinContainer(coin, 500);
+#if DEBUG
+                coinContainer.AddCoins(400);
+#endif
+                coinContainers.Add(coinContainer);
+            }
             currentTransaction = new Transaction();
         }
         #endregion
         #region Methods
         public void InsertCoin(Coin coin)
         {
-
             currentTransaction.AddMoney(coin);
         }
         public void AcceptValueInput()
         {
             foreach(Coin coin in Enum.GetValues(typeof(Coin)))
             {
-                CoinContainer selectedCoinContainer = coinContainers.Where(c => c.Cointype == coin).Single();
                 int amount = currentTransaction.InsertedMoney.Where(c => c == coin).Count();
                 if (amount > 0)
                 {
+                    CoinContainer selectedCoinContainer = coinContainers.Where(c => c.Cointype == coin).Single();
                     selectedCoinContainer.AddCoins(amount);
                 }
                 
@@ -74,7 +73,14 @@ namespace Businesslogic
             int backGivenMoney = 0;
             while (backGivenMoney != value)
             {
-                CoinContainer coinContainer = coinContainers.Where(c => value >= (int)c.Cointype && c.AmountCoins >= 1).OrderByDescending(c => (int)c.Cointype).First();
+                CoinContainer coinContainer = coinContainers
+                    .Where(c => 
+                        value >= (int)c.Cointype && 
+                        c.AmountCoins >= 1)
+                    .OrderByDescending(c => (
+                        int)c.Cointype)
+                     .First();
+
                 coinContainer.AddCoins(-1);
                 backGivenMoney += (int)coinContainer.Cointype;
                 coins.Add(coinContainer.Cointype);

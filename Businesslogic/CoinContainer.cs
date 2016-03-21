@@ -25,7 +25,7 @@ namespace Businesslogic
         #region Methods
         public void AddCoins(int amount)
         {
-            if(this.amountCoins + amount < maxAmount && this.amountCoins + amount >= 0)
+            if(this.amountCoins + amount <= maxAmount && this.amountCoins + amount >= 0)
             {
                 this.amountCoins += amount;
             }

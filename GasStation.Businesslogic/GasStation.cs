@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace GasStation.Businesslogic
 {
+    /// <summary>
+    /// Represents one GasStation
+    /// </summary>
     public class GasStation
     {
         #region Membervariables
@@ -15,12 +18,19 @@ namespace GasStation.Businesslogic
         List<GasPump> gasPumps = new List<GasPump>();
         List<Tank> tanks = new List<Tank>();
         List<Fuel> fuels = new List<Fuel>();
+        PayStation payStation = new PayStation();
+        private string name;
         #endregion
         #region Constructors
-        public GasStation()
+        /// <summary>
+        /// Initializies a GasStation
+        /// </summary>
+        /// <param name="name">Name of the GasStation</param>
+        public GasStation(string name)
         {
             dbContext = new DbContext();
             tanks = dbContext.Load<Tank>();
+            this.name = name;
             gasPumps = dbContext.Load<GasPump>();
         }
         #endregion
@@ -45,6 +55,36 @@ namespace GasStation.Businesslogic
             get
             {
                 return gasPumps;
+            }
+        }
+        /// <summary>
+        /// Starts a Paytransaction
+        /// </summary>
+        /// <param name="gasTapTransaction">The current Transaction</param>
+        /// <returns>One PayStation</returns>
+        public PayStation Pay(GasTapTransaction gasTapTransaction)
+        {
+            return payStation;
+        }
+
+        /// <summary>
+        /// Gives the PayStation of the GasStation back.
+        /// </summary>
+        public PayStation PayStation
+        {
+            get
+            {
+                return payStation;
+            }
+        }
+        /// <summary>
+        /// Gives back the Name of the Gas Station
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return name;
             }
         }
         #endregion
