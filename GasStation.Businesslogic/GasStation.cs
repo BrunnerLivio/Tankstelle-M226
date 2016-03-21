@@ -14,6 +14,7 @@ namespace GasStation.Businesslogic
         DbContext dbContext;
         List<GasPump> gasPumps = new List<GasPump>();
         List<Tank> tanks = new List<Tank>();
+        List<Fuel> fuels = new List<Fuel>();
         #endregion
         #region Constructors
         public GasStation()
