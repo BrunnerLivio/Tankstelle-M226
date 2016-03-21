@@ -18,7 +18,18 @@ namespace GasStation.Businesslogic
         private string gasPumpName;
         private int givenMoney;
         private DateTime date;
-        public Receipt(string gasStationName, string fuelName, int rappenPerMilliliters, int usedFuel, string gasPumpName, int givenMoney)
+
+        /// <summary>
+        /// Initializes a Receipt
+        /// </summary>
+        /// <param name="gasStationName">Name of the GasStation</param>
+        /// <param name="fuelName">Name of the used fuel</param>
+        /// <param name="rappenPerMilliliters">Rappen per Milliliters of the fuel</param>
+        /// <param name="usedFuel">The used fuel</param>
+        /// <param name="gasPumpName">The Name of the Gas Pump</param>
+        /// <param name="givenMoney">The given Money</param>
+        /// <param name="date">The Date of the Transaction</param>
+        public Receipt(string gasStationName, string fuelName, int rappenPerMilliliters, int usedFuel, string gasPumpName, int givenMoney, DateTime date)
         {
             this.gasStationName = gasStationName;
             this.fuelName = fuelName;
@@ -26,7 +37,7 @@ namespace GasStation.Businesslogic
             this.usedFuel = usedFuel;
             this.gasPumpName = gasPumpName;
             this.givenMoney = givenMoney;
-            date = DateTime.Now;
+            this.date = date;
         }
 
         /// <summary>

@@ -50,7 +50,7 @@ namespace GasStation.Businesslogic.Statistic
         /// </returns>
         public Statistic GetSalesOfLastWeek()
         {
-            return new Statistic(gasStation.Receipts.Where(r => r.Date > DateTime.Today.AddDays(-7) && r.Date < DateTime.Today));
+            return new Statistic(gasStation.Receipts.Where(r => r.Date > DateTime.Today.AddDays(-7) && r.Date < DateTime.Today.AddDays(1)));
         }
 
         /// <summary>

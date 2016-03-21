@@ -95,7 +95,7 @@ namespace GasStation.Businesslogic
             }
             payStation.AcceptValueInput();
             isPaid = true;
-            receipt = new Receipt(gasTap.GasPump.GasStation.Name, gasTap.Tank.Fuel.Name, gasTap.Tank.Fuel.RappenPerMilliliters, usedFuel, gasTap.GasPump.Name, inputtedMoney);
+            receipt = new Receipt(gasTap.GasPump.GasStation.Name, gasTap.Tank.Fuel.Name, gasTap.Tank.Fuel.RappenPerMilliliters, usedFuel, gasTap.GasPump.Name, inputtedMoney, DateTime.Now);
             receipt.Save();
 
             if(inputtedMoney > cost)

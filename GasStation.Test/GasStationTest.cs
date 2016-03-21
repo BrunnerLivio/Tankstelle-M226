@@ -4,6 +4,7 @@ using GasStation.Businesslogic;
 using System.Linq;
 using Businesslogic;
 using System.Collections.Generic;
+using GasStation.Businesslogic.Statistic;
 
 namespace GasStation.Test
 {
@@ -77,8 +78,41 @@ namespace GasStation.Test
         [TestMethod]
         public void Punkt16()
         {
-            TestCase1();
-            gasStation.GasStationStatistics.GetSalesOfLastMonth();
+            Init();
+            gasStation.DbContext.ClearDb();
+            Receipt receipt = new Receipt("Livio & Jonas Tankstelle", "Diesel", 2, 300, "Gas Pump 1", 5000, DateTime.Now);
+            receipt.Save();
+            receipt = new Receipt("Livio & Jonas Tankstelle", "Petrol", 3, 500, "Gas Pump 1", 20000, DateTime.Now.AddDays(-5));
+            receipt.Save();
+            receipt = new Receipt("Livio & Jonas Tankstelle", "Petrol", 3, 1000, "Gas Pump 1", 10000, DateTime.Now.AddDays(-10));
+            receipt.Save();
+
+            receipt = new Receipt("Livio & Jonas Tankstelle", "Diesel", 2, 1000, "Gas Pump 1", 5000, DateTime.Now.AddMonths(-3));
+            receipt.Save();
+
+            //Day
+            Statistic statistic = gasStation.GasStationStatistics.GetSalesOfTheDay();
+            Assert.AreEqual(600, statistic.Sales);
+            Assert.AreEqual(1, statistic.FuelStatistics.Count());
+            Assert.AreEqual(300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
+            //Week
+            statistic = gasStation.GasStationStatistics.GetSalesOfLastWeek();
+            Assert.AreEqual(2100, statistic.Sales);
+            Assert.AreEqual(2, statistic.FuelStatistics.Count());
+            Assert.AreEqual(300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
+            Assert.AreEqual(500, statistic.FuelStatistics.Where(fs => fs.Name == "Petrol").First().UsedFuel);
+            //Month
+            statistic = gasStation.GasStationStatistics.GetSalesOfLastMonth();
+            Assert.AreEqual(5100, statistic.Sales);
+            Assert.AreEqual(2, statistic.FuelStatistics.Count());
+            Assert.AreEqual(300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
+            Assert.AreEqual(1500, statistic.FuelStatistics.Where(fs => fs.Name == "Petrol").First().UsedFuel);
+            //Year
+            statistic = gasStation.GasStationStatistics.GetSalesOfLastYear();
+            Assert.AreEqual(7100, statistic.Sales);
+            Assert.AreEqual(2, statistic.FuelStatistics.Count());
+            Assert.AreEqual(1300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
+            Assert.AreEqual(1500, statistic.FuelStatistics.Where(fs => fs.Name == "Petrol").First().UsedFuel);
         }
     }
 }
