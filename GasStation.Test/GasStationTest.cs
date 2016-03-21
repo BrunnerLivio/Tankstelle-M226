@@ -112,6 +112,33 @@ namespace GasStation.Test
                 Assert.AreEqual(0, gasTapTransaction.Cost);
             }
         }
+
+        [TestMethod]
+        public void Punkt5()
+        {
+            Init();
+            gasStation.DbContext.ClearDb();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                foreach(GasTap gasTap in selectedGasPump.GasTaps)
+                {
+                    if(gasTap != selectedGasTap)
+                    {
+                        Assert.IsTrue(gasTap.IsLocked);
+                        Assert.IsFalse(gasTap.IsInUse);
+                    }
+                    else
+                    {
+                        Assert.IsFalse(gasTap.IsLocked);
+                        Assert.IsTrue(gasTap.IsInUse);
+                    }
+                }
+            }
+        }
+
         [TestMethod]
         public void Punkt16()
         {
