@@ -98,7 +98,20 @@ namespace GasStation.Test
             Punkt2();
             Assert.AreEqual(70, selectedGasTap.Tank.Fuel.FrankenPerLiter);
         }
+        [TestMethod]
+        public void Punkt4()
+        {
+            Init();
+            gasStation.DbContext.ClearDb();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
 
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                Assert.AreEqual(0, gasTapTransaction.UsedFuel);
+                Assert.AreEqual(0, gasTapTransaction.Cost);
+            }
+        }
         [TestMethod]
         public void Punkt16()
         {
