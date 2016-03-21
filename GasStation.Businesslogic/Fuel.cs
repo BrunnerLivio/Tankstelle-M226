@@ -36,7 +36,26 @@ namespace GasStation.Businesslogic
                 return rappenPerMilliliters;
             }
         }
-
+        /// <summary>
+        /// Gives back how much franken a liter costs of the fuel
+        /// </summary>
+        /// <remarks>
+        /// DO NOT USE FOR CALCULATION (not accurate).
+        /// JUST FOR DISPLAY
+        /// </remarks>
+        public double FrankenPerLiter
+        {
+            get
+            {
+                return (double)rappenPerMilliliters / 100 * 1000;
+            }
+        }
+        /// <summary>
+        /// Gives the Name of the Fuel back
+        /// </summary>
+        /// <example>
+        /// Diesel, Super or Petrol
+        /// </example>
         public string Name
         {
             get

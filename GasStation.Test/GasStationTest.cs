@@ -20,7 +20,7 @@ namespace GasStation.Test
         GasPump gasPump1;
         GasPump gasPump2;
         GasPump selectedGasPump;
-
+        GasTap selectedGasTap;
         private void Init()
         {
             gasStation = new Businesslogic.GasStation("Jonas & Livios Tankstelle");
@@ -88,8 +88,15 @@ namespace GasStation.Test
         public void Punkt2()
         {
             Punkt1();
-            GasTap gasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Diesel").FirstOrDefault();
-            Assert.IsNotNull(gasTap);
+            selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Diesel").FirstOrDefault();
+            Assert.IsNotNull(selectedGasTap);
+        }
+
+        [TestMethod]
+        public void Punkt3()
+        {
+            Punkt2();
+            Assert.AreEqual(70, selectedGasTap.Tank.Fuel.FrankenPerLiter);
         }
 
         [TestMethod]
