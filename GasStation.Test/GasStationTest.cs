@@ -84,6 +84,13 @@ namespace GasStation.Test
             selectedGasPump = gasStation.GasPumps.First();
             Assert.AreEqual("Gas Pump 1", selectedGasPump.Name);
         }
+        [TestMethod]
+        public void Punkt2()
+        {
+            Punkt1();
+            GasTap gasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Diesel").FirstOrDefault();
+            Assert.IsNotNull(gasTap);
+        }
 
         [TestMethod]
         public void Punkt16()
