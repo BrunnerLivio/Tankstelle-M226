@@ -42,5 +42,21 @@ namespace AnttittyFramework
             }
             return items;
         }
+        /// <summary>
+        /// Deletes everything in the Database
+        /// </summary>
+        public void ClearDb()
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+        }
     }
 }

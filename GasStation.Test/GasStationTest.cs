@@ -49,6 +49,7 @@ namespace GasStation.Test
         public void TestCase1()
         {
             Init();
+            gasStation.DbContext.ClearDb();
             //Er wählt eine Zapfsäule der Tankstelle aus.
             GasPump selectedGasPump = gasStation.GasPumps.First();
 
@@ -72,6 +73,12 @@ namespace GasStation.Test
                 Receipt receipt = gasTapTransaction.GetReceipt();
             }
             
+        }
+        [TestMethod]
+        public void Punkt16()
+        {
+            TestCase1();
+            gasStation.GasStationStatistics.GetSalesOfLastMonth();
         }
     }
 }

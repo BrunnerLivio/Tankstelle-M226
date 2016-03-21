@@ -50,9 +50,12 @@
     <Compile Include="FuelType.cs" />
     <Compile Include="GasPump.cs" />
     <Compile Include="GasStation.cs" />
+    <Compile Include="Statistic\FuelStatistic.cs" />
+    <Compile Include="Statistic\GasStationStatistics.cs" />
     <Compile Include="GasTap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Receipt.cs" />
+    <Compile Include="Statistic\Statistic.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="GasTapTransaction.cs" />
   </ItemGroup>

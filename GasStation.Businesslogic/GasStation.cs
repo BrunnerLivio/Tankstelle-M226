@@ -1,5 +1,6 @@
 ﻿using AnttittyFramework;
 using Businesslogic;
+using GasStation.Businesslogic.Statistic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace GasStation.Businesslogic
     public class GasStation
     {
         #region Membervariables
-        DbContext dbContext;
-        List<GasPump> gasPumps = new List<GasPump>();
-        List<Tank> tanks = new List<Tank>();
-        List<Fuel> fuels = new List<Fuel>();
-        PayStation payStation = new PayStation();
+        private DbContext dbContext;
+        private List<GasPump> gasPumps = new List<GasPump>();
+        private List<Tank> tanks = new List<Tank>();
+        private List<Fuel> fuels = new List<Fuel>();
+        private PayStation payStation = new PayStation();
+        private List<Receipt> receipts = new List<Receipt>();
+        private GasStationStatistics gasStationStatistics;
         private string name;
         #endregion
         #region Constructors
@@ -32,11 +35,22 @@ namespace GasStation.Businesslogic
             tanks = dbContext.Load<Tank>();
             this.name = name;
             gasPumps = dbContext.Load<GasPump>();
+            gasStationStatistics = new GasStationStatistics(this);
         }
         #endregion
         #region Methods
         #endregion
         #region Properties
+        /// <summary>
+        /// Gives the DbContext back.
+        /// </summary>
+        public DbContext DbContext
+        {
+            get
+            {
+                return dbContext;
+            }
+        }
         /// <summary>
         /// Gets all Tanks of the Gas Station
         /// </summary>
@@ -85,6 +99,21 @@ namespace GasStation.Businesslogic
             get
             {
                 return name;
+            }
+        }
+        public List<Receipt> Receipts
+        {
+            get
+            {
+                return dbContext.Load<Receipt>();
+            }
+        }
+        
+        public GasStationStatistics GasStationStatistics
+        {
+            get
+            {
+                return gasStationStatistics;
             }
         }
         #endregion

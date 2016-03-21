@@ -17,6 +17,7 @@ namespace GasStation.Businesslogic
         private int usedFuel;
         private string gasPumpName;
         private int givenMoney;
+        private DateTime date;
         public Receipt(string gasStationName, string fuelName, int rappenPerMilliliters, int usedFuel, string gasPumpName, int givenMoney)
         {
             this.gasStationName = gasStationName;
@@ -25,6 +26,7 @@ namespace GasStation.Businesslogic
             this.usedFuel = usedFuel;
             this.gasPumpName = gasPumpName;
             this.givenMoney = givenMoney;
+            date = DateTime.Now;
         }
 
         /// <summary>
@@ -37,6 +39,17 @@ namespace GasStation.Businesslogic
                 return rappenPerMilliliters * usedFuel;
             }
 
+        }
+
+        /// <summary>
+        /// Gives the Date of the Receipt back
+        /// </summary>
+        public DateTime Date
+        {
+            get
+            {
+                return date;
+            }
         }
         /// <summary>
         /// Gives the FormattedOutput of the receipt back
@@ -52,6 +65,26 @@ namespace GasStation.Businesslogic
                 formattedOutput += String.Format("Rückgeld         {0} Fr\n", (double)(givenMoney - Cost) / 100);
                 formattedOutput += "\n\n\n";
                 return formattedOutput;
+            }
+        }
+        /// <summary>
+        /// Returns the fuelname of the receipt
+        /// </summary>
+        public string FuelName
+        {
+            get
+            {
+                return fuelName;
+            }
+        }
+        /// <summary>
+        /// Gives the used fuel back
+        /// </summary>
+        public int UsedFuel
+        {
+            get
+            {
+                return usedFuel;
             }
         }
     }
