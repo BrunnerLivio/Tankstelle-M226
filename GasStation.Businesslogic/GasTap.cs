@@ -13,6 +13,7 @@ namespace GasStation.Businesslogic
     [Serializable]
     public class GasTap : DbItem
     {
+        [NonSerialized]
         private GasPump gasPump;
         private bool isLocked = false;
         private Tank tank;
