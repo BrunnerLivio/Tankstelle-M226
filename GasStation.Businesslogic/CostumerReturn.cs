@@ -10,14 +10,14 @@ namespace GasStation.Businesslogic
     /// <summary>
     /// Represents one Customer Return
     /// </summary>
-    public class CustomerReturn
+    public class CostumerReturn
     {
         /// <summary>
         /// Initializes a Costumer Return
         /// </summary>
         /// <param name="receipt">The Receipt the Costumer should receive</param>
         /// <param name="change">The Change the Costumer should get</param>
-        public CustomerReturn(Receipt receipt, List<Coin> change)
+        public CostumerReturn(Receipt receipt, List<Coin> change)
         {
             Receipt = receipt;
             Change = change;

@@ -54,7 +54,7 @@ namespace GasStation.Businesslogic
         /// <returns>
         /// Change
         /// </returns>
-        public new CustomerReturn AcceptValueInput()
+        public new CostumerReturn AcceptValueInput()
         {
             if (selectedGasTap == null)
             {
@@ -83,8 +83,9 @@ namespace GasStation.Businesslogic
             base.AcceptValueInput();
             selectedGasTap.GasPump.UnlockGasTaps();
             selectedGasTap.CompleteTransaction();
-            return new CustomerReturn(receipt ,change);
+            return new CostumerReturn(receipt ,change);
         }
+
         /// <summary>
         /// Gives back if the current Gas Tap has an Open Transaction
         /// </summary>

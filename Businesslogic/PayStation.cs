@@ -23,6 +23,19 @@ namespace Businesslogic
         {
             currentTransaction.AddMoney(coin);
         }
+
+        /// <summary>
+        /// Inserts the Coins Directly and into the CoinContainers
+        /// </summary>
+        /// <remarks>
+        /// JUST FOR ADMINISTRATION
+        /// </remarks>
+        /// <param name="coin">The Coin</param>
+        public void InsertCoinDirectly(Coin coin)
+        {
+            currentTransaction.AddMoney(coin);
+            AcceptValueInput();
+        }
         public virtual void AcceptValueInput()
         {
             foreach(Coin coin in Enum.GetValues(typeof(Coin)))
@@ -71,8 +84,11 @@ namespace Businesslogic
                         c.AmountCoins >= 1)
                     .OrderByDescending(c => (
                         int)c.Cointype)
-                     .First();
-
+                     .FirstOrDefault();
+                if(coinContainer == null)
+                {
+                    throw new Exception("PayStation hat kein Geld mehr!");
+                }
                 coinContainer.AddCoins(-1);
                 backGivenMoney += (int)coinContainer.Cointype;
                 coins.Add(coinContainer.Cointype);

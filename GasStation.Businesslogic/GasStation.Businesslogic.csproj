@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomerReturn.cs" />
+    <Compile Include="CostumerReturn.cs" />
     <Compile Include="Fuel.cs" />
     <Compile Include="FuelType.cs" />
     <Compile Include="GasPump.cs" />

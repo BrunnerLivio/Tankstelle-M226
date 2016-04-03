@@ -50,6 +50,16 @@ namespace GasStation.Test
             gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
             gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
 
+            foreach (PayStationCommunicator payStationCommunicator in gasStation.PayStationCommunicators)
+            {
+                foreach(Coin coin in (Coin[])Enum.GetValues(typeof(Coin)))
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        payStationCommunicator.InsertCoinDirectly(coin);
+                    }
+                }
+            }
             gasStation.DbContext.ClearDb();
 
         }
@@ -216,7 +226,23 @@ namespace GasStation.Test
             int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
 
         }
+        [TestMethod]
+        public void Punkt10()
+        {
+            Init();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
 
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(300);
+            }
+            PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
+
+            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+            Assert.AreEqual(1500, moneyToPay);
+
+        }
         [TestMethod]
         public void Punkt16()
         {
