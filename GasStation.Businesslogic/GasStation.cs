@@ -3,6 +3,7 @@ using Businesslogic;
 using GasStation.Businesslogic.Statistic;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace GasStation.Businesslogic
 {
@@ -42,6 +43,31 @@ namespace GasStation.Businesslogic
             get
             {
                 return dbContext;
+            }
+        }
+        /// <summary>
+        /// Refills the Tanks with the amount which was used in the last month
+        /// </summary>
+        public void RefillTanks()
+        {
+            DateTime lastYear = DateTime.Now.AddYears(-1);
+            DateTime endOfTheMonthLastYear = new DateTime(lastYear.Year, DateTime.Today.Month, DateTime.DaysInMonth(lastYear.Year, DateTime.Today.Month));
+            DateTime startOfTheMonthLastYear = new DateTime(lastYear.Year, DateTime.Today.Month, 1);
+            Statistic.Statistic statistic = gasStationStatistics.GetSales(startOfTheMonthLastYear.AddDays(-1), endOfTheMonthLastYear.AddDays(1));
+            foreach(Tank tank in tanks)
+            {
+                FuelStatistic fuelStatistic = statistic.FuelStatistics.Where(fs => fs.Name == tank.Fuel.Name).FirstOrDefault();
+                if (fuelStatistic != null)
+                {
+                    if (fuelStatistic.UsedFuel > tank.FilledCapacity)
+                    {
+                        tank.AddFuel(fuelStatistic.UsedFuel - tank.FilledCapacity);
+                    }
+                }
+                else
+                {
+                    tank.AddFuel(tank.MaxCapacity - tank.FilledCapacity);
+                }
             }
         }
         /// <summary>

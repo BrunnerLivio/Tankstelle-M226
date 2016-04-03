@@ -322,6 +322,37 @@ namespace GasStation.Test
             Punkt7();
             Punkt7();
         }
+
+        [TestMethod]
+        public void Punkt15()
+        {
+            Init();
+            Tank tank = gasStation.Tanks.Where(t => t.Fuel.Name == "Diesel").First();
+            Assert.AreEqual(4000, tank.FilledCapacity);
+            Receipt receipt = new Receipt("Livio & Jonas Tankstelle", "Diesel", 2, 1000, "Gas Pump 1", 5000, DateTime.Now.AddYears(-1));
+            receipt.Save();
+            receipt = new Receipt("Livio & Jonas Tankstelle", "Diesel", 2, 500, "Gas Pump 1", 5000, DateTime.Now.AddYears(-1));
+            receipt.Save();
+            receipt = new Receipt("Livio & Jonas Tankstelle", "Diesel", 2, 1000, "Gas Pump 1", 5000, DateTime.Now.AddYears(-1));
+            receipt.Save();
+
+
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Diesel").First();
+            Assert.IsNull(gasStation.LastTimeTankMinimumReached);
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(2500);
+            }
+
+            Assert.AreEqual(1500, tank.FilledCapacity);
+
+            gasStation.RefillTanks();
+            Assert.AreEqual(2500, tank.FilledCapacity);
+
+        }
+
         [TestMethod]
         public void Punkt16()
         {
@@ -337,24 +368,24 @@ namespace GasStation.Test
             receipt.Save();
 
             //Day
-            Statistic statistic = gasStation.GasStationStatistics.GetSalesOfTheDay();
+            Statistic statistic = gasStation.GasStationStatistics.GetSales(DateTime.Today, DateTime.Today.AddDays(1));
             Assert.AreEqual(600, statistic.Sales);
             Assert.AreEqual(1, statistic.FuelStatistics.Count());
             Assert.AreEqual(300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
             //Week
-            statistic = gasStation.GasStationStatistics.GetSalesOfLastWeek();
+            statistic = gasStation.GasStationStatistics.GetSales(DateTime.Today.AddDays(-7), DateTime.Now);
             Assert.AreEqual(2100, statistic.Sales);
             Assert.AreEqual(2, statistic.FuelStatistics.Count());
             Assert.AreEqual(300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
             Assert.AreEqual(500, statistic.FuelStatistics.Where(fs => fs.Name == "Petrol").First().UsedFuel);
             //Month
-            statistic = gasStation.GasStationStatistics.GetSalesOfLastMonth();
+            statistic = gasStation.GasStationStatistics.GetSales(DateTime.Now.AddMonths(-1), DateTime.Now);
             Assert.AreEqual(5100, statistic.Sales);
             Assert.AreEqual(2, statistic.FuelStatistics.Count());
             Assert.AreEqual(300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);
             Assert.AreEqual(1500, statistic.FuelStatistics.Where(fs => fs.Name == "Petrol").First().UsedFuel);
             //Year
-            statistic = gasStation.GasStationStatistics.GetSalesOfLastYear();
+            statistic = gasStation.GasStationStatistics.GetSales(DateTime.Now.AddYears(-1), DateTime.Now);
             Assert.AreEqual(7100, statistic.Sales);
             Assert.AreEqual(2, statistic.FuelStatistics.Count());
             Assert.AreEqual(1300, statistic.FuelStatistics.Where(fs => fs.Name == "Diesel").First().UsedFuel);

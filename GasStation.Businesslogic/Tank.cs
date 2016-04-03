@@ -45,7 +45,7 @@ namespace GasStation.Businesslogic
         public void AddFuel(int amount)
         {
             if (filledCapacity + amount <= maxCapacity)
-            {
+             {
                 if(minimumCapacity >= amount)
                 {
                     gasStation.NotifyTankMinimumReached(this);

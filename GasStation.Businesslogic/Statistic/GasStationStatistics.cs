@@ -22,46 +22,16 @@ namespace GasStation.Businesslogic.Statistic
             this.gasStation = gasStation;
         }
         /// <summary>
-        /// Calculates the Sales of the last year
+        /// Calculates the Sales
         /// </summary>
-        /// <returns>
-        /// The Sales of the last year in rappen.
-        /// </returns>
-        public Statistic GetSalesOfLastYear()
+        /// <param name="endDate">Enddate of the Sales which should be calculated</param>
+        /// <param name="startDate">Startdate of the Sales which should be calculated</param>
+        /// <returns>The Sales of the given timespan</returns>
+        public Statistic GetSales(DateTime startDate, DateTime endDate)
         {
-            return new Statistic(gasStation.Receipts.Where(r => r.Date > DateTime.Now.AddYears(-1) && r.Date < DateTime.Now));
+            return new Statistic(gasStation.Receipts.Where(r => r.Date > startDate && r.Date < endDate));
         }
 
-        /// <summary>
-        /// Calculates the Sales of the last month
-        /// </summary>
-        /// <returns>
-        /// The Sales of the last month in rappen.
-        /// </returns>
-        public Statistic GetSalesOfLastMonth()
-        {
-            return new Statistic(gasStation.Receipts.Where(r => r.Date > DateTime.Now.AddMonths(-1) && r.Date < DateTime.Now));
-        }
-        /// <summary>
-        /// Calculates the Sales of the last week
-        /// </summary>
-        /// <returns>
-        /// The Sales of the last week in rappen.
-        /// </returns>
-        public Statistic GetSalesOfLastWeek()
-        {
-            return new Statistic(gasStation.Receipts.Where(r => r.Date > DateTime.Today.AddDays(-7) && r.Date < DateTime.Today.AddDays(1)));
-        }
 
-        /// <summary>
-        /// Calculates the Sales of the day
-        /// </summary>
-        /// <returns>
-        /// The Sales of the day in rappen.
-        /// </returns>
-        public Statistic GetSalesOfTheDay()
-        {
-            return new Statistic(gasStation.Receipts.Where(r => r.Date > DateTime.Today && r.Date < DateTime.Today.AddDays(1)));
-        }
     }
 }
