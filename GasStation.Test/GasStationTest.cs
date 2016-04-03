@@ -223,7 +223,7 @@ namespace GasStation.Test
             PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
             Assert.IsTrue(selectedGasTap.IsLocked);
 
-            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+            selectedPayStation.TellGasTap(selectedGasTap);
 
         }
         [TestMethod]
@@ -242,6 +242,35 @@ namespace GasStation.Test
             int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
             Assert.AreEqual(1500, moneyToPay);
 
+        }
+
+        [TestMethod]
+        public void Punkt11()
+        {
+            Init();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(300);
+            }
+            PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
+            Assert.IsTrue(selectedGasTap.IsLocked);
+
+            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+            selectedPayStation.InsertCoin(Coin.TenFrancs);
+            while (selectedPayStation.GetValueInput() < moneyToPay)
+            {
+                selectedPayStation.InsertCoin(Coin.FiveFrancs);
+            }
+            selectedPayStation.InsertCoin(Coin.FiveFrancs);
+
+
+            Assert.IsTrue(selectedGasTap.IsLocked);
+            CostumerReturn costumerReturn = selectedPayStation.AcceptValueInput();
+            Assert.IsFalse(selectedGasTap.IsLocked);
+            Assert.AreEqual(500, costumerReturn.Change.Sum(c => (int)c));
         }
         [TestMethod]
         public void Punkt16()
