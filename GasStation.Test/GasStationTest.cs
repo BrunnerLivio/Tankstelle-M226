@@ -151,6 +151,7 @@ namespace GasStation.Test
 
 
         }
+        [TestMethod]
         public void Punkt7()
         {
             Init();
@@ -176,6 +177,8 @@ namespace GasStation.Test
             Assert.IsFalse(selectedGasTap.IsLocked);
 
         }
+
+
         [TestMethod]
         public void Punkt8()
         {
@@ -195,6 +198,25 @@ namespace GasStation.Test
 
             Assert.IsTrue(selectedPayStation.HasGasTapOpenTransaction);
         }
+
+        [TestMethod]
+        public void Punkt9()
+        {
+            Init();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(300);
+            }
+            PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
+            Assert.IsTrue(selectedGasTap.IsLocked);
+
+            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+
+        }
+
         [TestMethod]
         public void Punkt16()
         {
