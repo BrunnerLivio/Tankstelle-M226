@@ -50,13 +50,13 @@ namespace GasStation.Test
             gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
             gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
 
+            gasStation.DbContext.ClearDb();
 
         }
         [TestMethod]
         public void TestCase1()
         {
             Init();
-            gasStation.DbContext.ClearDb();
             //Er wählt eine Zapfsäule der Tankstelle aus.
             GasPump selectedGasPump = gasStation.GasPumps.First();
 
@@ -100,7 +100,6 @@ namespace GasStation.Test
         public void Punkt4()
         {
             Init();
-            gasStation.DbContext.ClearDb();
             GasPump selectedGasPump = gasStation.GasPumps.First();
 
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
@@ -115,7 +114,6 @@ namespace GasStation.Test
         public void Punkt5()
         {
             Init();
-            gasStation.DbContext.ClearDb();
             GasPump selectedGasPump = gasStation.GasPumps.First();
 
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
@@ -141,7 +139,6 @@ namespace GasStation.Test
         public void Punkt6()
         {
             Init();
-            gasStation.DbContext.ClearDb();
             GasPump selectedGasPump = gasStation.GasPumps.First();
 
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
@@ -157,15 +154,12 @@ namespace GasStation.Test
         public void Punkt7()
         {
             Init();
-            gasStation.DbContext.ClearDb();
             GasPump selectedGasPump = gasStation.GasPumps.First();
 
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
             using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
             {
                 gasTapTransaction.TankUp(300);
-                Assert.AreEqual(300, gasTapTransaction.UsedFuel);
-                Assert.AreEqual(1500, gasTapTransaction.Cost);
             }
             PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
             Assert.IsTrue(selectedGasTap.IsLocked);
@@ -182,12 +176,29 @@ namespace GasStation.Test
             Assert.IsFalse(selectedGasTap.IsLocked);
 
         }
+        [TestMethod]
+        public void Punkt8()
+        {
+            Init();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
 
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
+
+            Assert.IsFalse(selectedPayStation.HasGasTapOpenTransaction);
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(300);
+
+            }
+            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+
+            Assert.IsTrue(selectedPayStation.HasGasTapOpenTransaction);
+        }
         [TestMethod]
         public void Punkt16()
         {
             Init();
-            gasStation.DbContext.ClearDb();
             Receipt receipt = new Receipt("Livio & Jonas Tankstelle", "Diesel", 2, 300, "Gas Pump 1", 5000, DateTime.Now);
             receipt.Save();
             receipt = new Receipt("Livio & Jonas Tankstelle", "Petrol", 3, 500, "Gas Pump 1", 20000, DateTime.Now.AddDays(-5));

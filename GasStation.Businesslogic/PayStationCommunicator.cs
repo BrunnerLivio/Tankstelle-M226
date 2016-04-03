@@ -30,6 +30,14 @@ namespace GasStation.Businesslogic
         /// <returns>The Cost of the Transaction</returns>
         public int TellGasTap(GasTap selectedGasTap)
         {
+            if(selectedGasTap.CurrentGasTapTransaction == null)
+            {
+                throw new Exception("Der angegbene Zapfhahn hat gar keine Offene Transaktion");
+            }
+            if (selectedGasTap.IsInUse)
+            {
+                throw new Exception("Der angegebene Zapfhahn wird gerade benutzt");
+            }
             this.selectedGasTap = selectedGasTap;
             return selectedGasTap.CurrentGasTapTransaction.Cost;
         }
@@ -40,12 +48,27 @@ namespace GasStation.Businesslogic
         /// <exception cref="Exception">
         /// When you have not inputted enough money
         /// </exception>
+        /// <exception cref="Exception">
+        /// When no GasTap is given.
+        /// </exception>
         /// <returns>
         /// Change
         /// </returns>
         public new CustomerReturn AcceptValueInput()
         {
-            if(GetValueInput() < selectedGasTap.CurrentGasTapTransaction.Cost)
+            if (selectedGasTap == null)
+            {
+                throw new Exception("Kein Zapfhahn ausgewählt. Es muss zuerst ein Zapfhahn angegeben werden.");
+            }
+            if (selectedGasTap.CurrentGasTapTransaction == null)
+            {
+                throw new Exception("Der angegbene Zapfhahn hat gar keine Offene Transaktion");
+            }
+            if (selectedGasTap.IsInUse)
+            {
+                throw new Exception("Der angegebene Zapfhahn wird gerade benutzt");
+            }
+            if (GetValueInput() < selectedGasTap.CurrentGasTapTransaction.Cost)
             {
                 throw new Exception("Sie haben zu wenig Geld eingeworfen");
             }
@@ -62,6 +85,16 @@ namespace GasStation.Businesslogic
             selectedGasTap.CompleteTransaction();
             return new CustomerReturn(receipt ,change);
         }
+        /// <summary>
+        /// Gives back if the current Gas Tap has an Open Transaction
+        /// </summary>
+        public bool HasGasTapOpenTransaction
+        {
+            get
+            {
 
+                return selectedGasTap?.CurrentGasTapTransaction != null;
+            }
+        }
     }
 }
