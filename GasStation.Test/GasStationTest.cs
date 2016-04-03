@@ -256,7 +256,6 @@ namespace GasStation.Test
                 gasTapTransaction.TankUp(300);
             }
             PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
-            Assert.IsTrue(selectedGasTap.IsLocked);
 
             int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
             selectedPayStation.InsertCoin(Coin.TenFrancs);
@@ -267,10 +266,38 @@ namespace GasStation.Test
             selectedPayStation.InsertCoin(Coin.FiveFrancs);
 
 
-            Assert.IsTrue(selectedGasTap.IsLocked);
             CostumerReturn costumerReturn = selectedPayStation.AcceptValueInput();
-            Assert.IsFalse(selectedGasTap.IsLocked);
             Assert.AreEqual(500, costumerReturn.Change.Sum(c => (int)c));
+        }
+
+        [TestMethod]
+        public void Punkt12()
+        {
+            Init();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(300);
+            }
+            PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
+
+            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+            selectedPayStation.InsertCoin(Coin.TenFrancs);
+            while (selectedPayStation.GetValueInput() < moneyToPay)
+            {
+                selectedPayStation.InsertCoin(Coin.FiveFrancs);
+            }
+            selectedPayStation.InsertCoin(Coin.FiveFrancs);
+
+
+            CostumerReturn costumerReturn = selectedPayStation.AcceptValueInput();
+            Assert.AreEqual(300, costumerReturn.Receipt.UsedFuel);
+            Assert.AreEqual(1500, costumerReturn.Receipt.Cost);
+            Assert.AreEqual("Petrol", costumerReturn.Receipt.FuelName);
+            Assert.AreEqual(DateTime.Now.ToString("dd.MM.yyyy"), costumerReturn.Receipt.FormattedDate);
+            Assert.AreEqual(DateTime.Now.ToString("hh:mm"), costumerReturn.Receipt.FormattedTime);
         }
         [TestMethod]
         public void Punkt16()

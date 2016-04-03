@@ -62,6 +62,17 @@ namespace GasStation.Businesslogic
                 return date;
             }
         }
+
+        /// <summary>
+        /// Gives the Date back in the format dd.MM.yyyy
+        /// </summary>
+        public string FormattedDate
+        {
+            get
+            {
+                return date.ToString("dd.MM.yyyy");
+            }
+        }
         /// <summary>
         /// Gives the FormattedOutput of the receipt back
         /// </summary>
@@ -69,7 +80,8 @@ namespace GasStation.Businesslogic
         {
             get
             {
-                string formattedOutput = String.Format("{0}\n\n\n", gasStationName);
+                string formattedOutput = String.Format("{0} - {1}", FormattedDate, FormattedTime);
+                formattedOutput += String.Format("{0}\n\n\n", gasStationName);
                 formattedOutput += String.Format("*{0}             {1} Fr\n", fuelName, (double)Cost / 100);
                 formattedOutput += String.Format("*{0} l             {1} Fr/Liter\n", (double)usedFuel / 1000, (double)rappenPerMilliliters);
                 formattedOutput += String.Format("gegeben          {0} Fr\n", (double)givenMoney / 100);
@@ -96,6 +108,16 @@ namespace GasStation.Businesslogic
             get
             {
                 return usedFuel;
+            }
+        }
+        /// <summary>
+        /// Gives the time back in the format hh:mm
+        /// </summary>
+        public string FormattedTime
+        {
+            get
+            {
+                return Date.ToString("hh:mm");
             }
         }
     }
