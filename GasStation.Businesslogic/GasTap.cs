@@ -16,8 +16,12 @@ namespace GasStation.Businesslogic
         [NonSerialized]
         private GasPump gasPump;
         private bool isLocked = false;
+        [NonSerialized]
         private Tank tank;
         private bool isInUse;
+        [NonSerialized]
+        private GasTapTransaction currentGasTapTransaction;
+
         /// <summary>
         /// Initializes a GasTap
         /// </summary>
@@ -37,10 +41,15 @@ namespace GasStation.Businesslogic
             {
                 return isLocked;
             }
-            set
+            internal set
             {
                 isLocked = value;
             }
+        }
+
+        internal void CompleteTransaction()
+        {
+            currentGasTapTransaction = null;
         }
 
         /// <summary>
@@ -52,7 +61,7 @@ namespace GasStation.Businesslogic
             {
                 return isInUse;
             }
-            set
+            internal set
             {
                 isInUse = value;
             }
@@ -67,25 +76,41 @@ namespace GasStation.Businesslogic
             {
                 throw new Exception("Gas Tap is locked");
             }
-            
-            return new GasTapTransaction(this);
+            currentGasTapTransaction = new GasTapTransaction(this);
+            return currentGasTapTransaction;
         }
-        
+
         /// <summary>
         /// Gets the parent gas pump
         /// </summary>
-        public GasPump GasPump
+        internal GasPump GasPump
         {
             get
             {
                 return gasPump;
             }
         }
+        /// <summary>
+        /// Gets the Tank
+        /// </summary>
         public Tank Tank
         {
             get
             {
                 return tank;
+            }
+        }
+        /// <summary>
+        /// Gives the CurrentGasTapTransaction back
+        /// </summary>
+        /// <remarks>
+        /// Is Null if the GasTap has not any Transactions
+        /// </remarks>
+        internal GasTapTransaction CurrentGasTapTransaction
+        {
+            get
+            {
+                return currentGasTapTransaction;
             }
         }
     }

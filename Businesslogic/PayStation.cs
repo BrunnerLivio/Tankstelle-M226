@@ -1,37 +1,29 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Businesslogic
 {
     public class PayStation
     {
-        #region Membervariables
         private List<CoinContainer> coinContainers = new List<CoinContainer>();
         private Transaction currentTransaction;
-        #endregion
-        #region Constructors
+
         public PayStation()
         {
             foreach (Coin coin in Enum.GetValues(typeof(Coin)))
             {
                 CoinContainer coinContainer = new CoinContainer(coin, 500);
-#if DEBUG
-                coinContainer.AddCoins(400);
-#endif
                 coinContainers.Add(coinContainer);
             }
             currentTransaction = new Transaction();
         }
-        #endregion
-        #region Methods
+
         public void InsertCoin(Coin coin)
         {
             currentTransaction.AddMoney(coin);
         }
-        public void AcceptValueInput()
+        public virtual void AcceptValueInput()
         {
             foreach(Coin coin in Enum.GetValues(typeof(Coin)))
             {
@@ -87,15 +79,14 @@ namespace Businesslogic
             }
             return coins;
         }
-        #endregion
-        #region Properties
-        public List<CoinContainer> CoinContainers
+
+        internal List<CoinContainer> CoinContainers
         {
             get
             {
                 return coinContainers;
             }
         }
-        #endregion
+
     }
 }

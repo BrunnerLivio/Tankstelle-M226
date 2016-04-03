@@ -22,18 +22,24 @@ namespace GasStation.Businesslogic
             this.name = name;
             this.gasStation = gasStation;
         }
+
+        internal void LockAllGasTaps()
+        {
+            gasTaps.ForEach(g => g.IsLocked = true);
+        }
+
         /// <summary>
         /// Locks all the Gas Taps from this Gas Pump expect the given
         /// </summary>
         /// <param name="gasTap">The Gas Tap which shouldn't get locked</param>
-        public void LockGasTapsExcept(GasTap gasTap)
+        internal void LockGasTapsExcept(GasTap gasTap)
         {
             gasTaps.Where(g => g != gasTap).ToList().ForEach(g => g.IsLocked = true);
         }
         /// <summary>
         /// Unlocks all the Gas Taps from this Gas Pump
         /// </summary>
-        public void UnlockGasTaps()
+        internal void UnlockGasTaps()
         {
             gasTaps.ForEach(g => g.IsLocked = false);
         }
@@ -63,7 +69,10 @@ namespace GasStation.Businesslogic
         /// <summary>
         /// Gibt die Gas Station zurück
         /// </summary>
-        public GasStation GasStation
+        /// <remarks>
+        /// Navigations Property
+        /// </remarks>
+        internal GasStation GasStation
         {
             get
             {

@@ -16,7 +16,6 @@ namespace GasStation.Test
         Fuel dieselFuel;
         Tank petrolTank;
         Tank dieselTank;
-        GasTap gasTap;
         GasPump gasPump1;
         GasPump gasPump2;
         GasPump selectedGasPump;
@@ -36,7 +35,7 @@ namespace GasStation.Test
 
             gasStation.Tanks.Add(petrolTank);
             gasStation.Tanks.Add(dieselTank);
-            
+
             gasStation.GasPumps.Add(gasPump1);
             gasStation.GasPumps.Add(gasPump2);
 
@@ -45,6 +44,11 @@ namespace GasStation.Test
 
             gasPump2.GasTaps.Add(new GasTap(dieselTank, gasPump2));
             gasPump2.GasTaps.Add(new GasTap(petrolTank, gasPump2));
+
+            gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
+            gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
+            gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
+            gasStation.PayStationCommunicators.Add(new PayStationCommunicator(gasStation));
 
 
         }
@@ -58,26 +62,20 @@ namespace GasStation.Test
 
             //Er wählt die Benzinsorte (Zapfhahn) und startet den Tankvorgang.
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
-            using(GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
             {
                 //Er schliesst den Tankvorgang ab und geht zur Kasse um den Betrag zu bezahlen.
                 gasTapTransaction.TankUp(300);
-                //Er teilt der Kassenperson mit welche Zapfsäule er verwendet hat.
-                PayStation paySation = gasStation.Pay(gasTapTransaction);
-                //Die Kassenperson teilt ihm den ausstehenden Betrag mit und der Kunde bezahlt den Betrag.
-                while(paySation.GetValueInput() < gasTapTransaction.Cost)
-                {
-                    paySation.InsertCoin(Coin.TenFrancs);
-                }
-                //Wenn der Kunde einen höheren Betrag dem Kassenpersonal übergibt als verlangt, so gibt die Person das Rückgeld zurück.
-                List<Coin> change =  gasTapTransaction.AcceptValueInput();
-                Assert.AreEqual((int)Coin.FiveFrancs, change.Sum(c => (int)c));
-                //Dem Kunden wird einen Quittung ausgehändigt.
-                Receipt receipt = gasTapTransaction.GetReceipt();
+
             }
-            
+            //Er teilt der Kassenperson mit welche Zapfsäule er verwendet hat.
+            PayStationCommunicator selectedPayStationCommunicator = gasStation.PayStationCommunicators.First();            
+            //Die Kassenperson teilt ihm den ausstehenden Betrag mit und der Kunde bezahlt den Betrag.
+            //Wenn der Kunde einen höheren Betrag dem Kassenpersonal übergibt als verlangt, so gibt die Person das Rückgeld zurück.
+            //Dem Kunden wird einen Quittung ausgehändigt.
+
         }
-       [TestMethod]
+        [TestMethod]
         public void Punkt1()
         {
             Init();
@@ -123,9 +121,9 @@ namespace GasStation.Test
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
             using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
             {
-                foreach(GasTap gasTap in selectedGasPump.GasTaps)
+                foreach (GasTap gasTap in selectedGasPump.GasTaps)
                 {
-                    if(gasTap != selectedGasTap)
+                    if (gasTap != selectedGasTap)
                     {
                         Assert.IsTrue(gasTap.IsLocked);
                         Assert.IsFalse(gasTap.IsInUse);
@@ -149,12 +147,40 @@ namespace GasStation.Test
             GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
             using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
             {
-                Assert.AreEqual(0, gasTapTransaction.UsedFuel);
-                Assert.AreEqual(0, gasTapTransaction.Cost);
                 gasTapTransaction.TankUp(300);
                 Assert.AreEqual(300, gasTapTransaction.UsedFuel);
-                Assert.AreEqual(1500 ,gasTapTransaction.Cost);
+                Assert.AreEqual(1500, gasTapTransaction.Cost);
             }
+
+
+        }
+        public void Punkt7()
+        {
+            Init();
+            gasStation.DbContext.ClearDb();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(300);
+                Assert.AreEqual(300, gasTapTransaction.UsedFuel);
+                Assert.AreEqual(1500, gasTapTransaction.Cost);
+            }
+            PayStationCommunicator selectedPayStation = gasStation.PayStationCommunicators.First();
+            Assert.IsTrue(selectedGasTap.IsLocked);
+
+            int moneyToPay = selectedPayStation.TellGasTap(selectedGasTap);
+            selectedPayStation.InsertCoin(Coin.TenFrancs);
+            while (selectedPayStation.GetValueInput() < moneyToPay)
+            {
+                selectedPayStation.InsertCoin(Coin.FiveFrancs);
+            }
+
+            Assert.IsTrue(selectedGasTap.IsLocked);
+            selectedPayStation.AcceptValueInput();
+            Assert.IsFalse(selectedGasTap.IsLocked);
+
         }
 
         [TestMethod]

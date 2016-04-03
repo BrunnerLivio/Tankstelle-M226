@@ -10,17 +10,15 @@ namespace GasStation.Businesslogic
     /// </summary>
     public class GasStation
     {
-        #region Membervariables
         private DbContext dbContext;
         private List<GasPump> gasPumps = new List<GasPump>();
         private List<Tank> tanks = new List<Tank>();
         private List<Fuel> fuels = new List<Fuel>();
-        private PayStation payStation = new PayStation();
+        private List<PayStationCommunicator> payStationCommunicators = new List<PayStationCommunicator>();
         private List<Receipt> receipts = new List<Receipt>();
         private GasStationStatistics gasStationStatistics;
         private string name;
-        #endregion
-        #region Constructors
+
         /// <summary>
         /// Initializies a GasStation
         /// </summary>
@@ -32,11 +30,9 @@ namespace GasStation.Businesslogic
             this.name = name;
             gasPumps = dbContext.Load<GasPump>();
             gasStationStatistics = new GasStationStatistics(this);
+            
         }
-        #endregion
-        #region Methods
-        #endregion
-        #region Properties
+
         /// <summary>
         /// Gives the DbContext back.
         /// </summary>
@@ -67,24 +63,15 @@ namespace GasStation.Businesslogic
                 return gasPumps;
             }
         }
-        /// <summary>
-        /// Starts a Paytransaction
-        /// </summary>
-        /// <param name="gasTapTransaction">The current Transaction</param>
-        /// <returns>One PayStation</returns>
-        public PayStation Pay(GasTapTransaction gasTapTransaction)
-        {
-            return payStation;
-        }
 
         /// <summary>
-        /// Gives the PayStation of the GasStation back.
+        /// Gives the PayStationCommunicators of the GasStation back.
         /// </summary>
-        public PayStation PayStation
+        public List<PayStationCommunicator> PayStationCommunicators
         {
             get
             {
-                return payStation;
+                return payStationCommunicators;
             }
         }
         /// <summary>
@@ -112,6 +99,5 @@ namespace GasStation.Businesslogic
                 return gasStationStatistics;
             }
         }
-        #endregion
     }
 }
