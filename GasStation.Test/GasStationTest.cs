@@ -79,10 +79,17 @@ namespace GasStation.Test
 
             }
             //Er teilt der Kassenperson mit welche Zapfsäule er verwendet hat.
-            PayStationCommunicator selectedPayStationCommunicator = gasStation.PayStationCommunicators.First();            
-            //Die Kassenperson teilt ihm den ausstehenden Betrag mit und der Kunde bezahlt den Betrag.
+            PayStationCommunicator selectedPayStationCommunicator = gasStation.PayStationCommunicators.First();
+            //Die Kassenperson teilt ihm den ausstehenden Betrag mit 
+            int moneyToPay = selectedPayStationCommunicator.TellGasTap(selectedGasTap);
+            //und der Kunde bezahlt den Betrag.
+            while (selectedPayStationCommunicator.GetValueInput() < moneyToPay)
+            {
+                selectedPayStationCommunicator.InsertCoin(Coin.TewntyFrancs);
+            }
             //Wenn der Kunde einen höheren Betrag dem Kassenpersonal übergibt als verlangt, so gibt die Person das Rückgeld zurück.
             //Dem Kunden wird einen Quittung ausgehändigt.
+            CostumerReturn costumerReturn = selectedPayStationCommunicator.AcceptValueInput();
 
         }
         [TestMethod]
