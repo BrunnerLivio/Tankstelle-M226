@@ -299,6 +299,13 @@ namespace GasStation.Test
             Assert.AreEqual(DateTime.Now.ToString("dd.MM.yyyy"), costumerReturn.Receipt.FormattedDate);
             Assert.AreEqual(DateTime.Now.ToString("hh:mm"), costumerReturn.Receipt.FormattedTime);
         }
+
+        [TestMethod]
+        public void Punkt13()
+        {
+            Punkt7();
+            Punkt7();
+        }
         [TestMethod]
         public void Punkt16()
         {
