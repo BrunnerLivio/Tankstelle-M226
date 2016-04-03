@@ -15,8 +15,8 @@ namespace GasStation.Test
         {
             Businesslogic.GasStation gasStation = new Businesslogic.GasStation("Jonas & Livios Tankstelle");
 
-            Tank tank = new Tank(petrolFuel, 5000);
-            while(tank.FilledCapacity < tank.MaxCapacity)
+            Tank tank = new Tank(new Fuel(2, "Petrol"), 5000, 100, new Businesslogic.GasStation(""));
+            while (tank.FilledCapacity < tank.MaxCapacity)
             {
                 tank.AddFuel(1000);
             }

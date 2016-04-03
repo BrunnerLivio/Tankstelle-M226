@@ -25,8 +25,8 @@ namespace GasStation.Test
             gasStation = new Businesslogic.GasStation("Jonas & Livios Tankstelle");
             petrolFuel = new Fuel(5, "Petrol");
             dieselFuel = new Fuel(7, "Diesel");
-            petrolTank = new Tank(petrolFuel, 1000);
-            dieselTank = new Tank(dieselFuel, 4000);
+            petrolTank = new Tank(petrolFuel, 1000, 100, gasStation);
+            dieselTank = new Tank(dieselFuel, 4000, 100, gasStation);
             gasPump1 = new GasPump(gasStation, "Gas Pump 1");
             gasPump2 = new GasPump(gasStation, "Gas Pump 2");
 
@@ -298,6 +298,22 @@ namespace GasStation.Test
             Assert.AreEqual("Petrol", costumerReturn.Receipt.FuelName);
             Assert.AreEqual(DateTime.Now.ToString("dd.MM.yyyy"), costumerReturn.Receipt.FormattedDate);
             Assert.AreEqual(DateTime.Now.ToString("hh:mm"), costumerReturn.Receipt.FormattedTime);
+        }
+
+
+        [TestMethod]
+        public void Punkt14()
+        {
+            Init();
+            GasPump selectedGasPump = gasStation.GasPumps.First();
+
+            GasTap selectedGasTap = selectedGasPump.GasTaps.Where(gt => gt.Tank.Fuel.Name == "Petrol").First();
+            Assert.IsNull(gasStation.LastTimeTankMinimumReached);
+            using (GasTapTransaction gasTapTransaction = selectedGasTap.Use())
+            {
+                gasTapTransaction.TankUp(950);
+            }
+            Assert.IsNotNull(gasStation.LastTimeTankMinimumReached);
         }
 
         [TestMethod]

@@ -2,6 +2,7 @@
 using Businesslogic;
 using GasStation.Businesslogic.Statistic;
 using System.Collections.Generic;
+using System;
 
 namespace GasStation.Businesslogic
 {
@@ -62,6 +63,19 @@ namespace GasStation.Businesslogic
             {
                 return gasPumps;
             }
+        }
+        /// <summary>
+        /// Gives back the last time the Tank minimum was reached
+        /// </summary>
+        public DateTime? LastTimeTankMinimumReached { get; private set; }
+        /// <summary>
+        /// Notifies the Tankwart
+        /// </summary>
+        /// <param name="tank">The Tank which has reached the minimum</param>
+        internal void NotifyTankMinimumReached(Tank tank)
+        {
+            LastTimeTankMinimumReached = DateTime.Now;
+            //SEND MAIL
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace GasStation.Test
         [TestMethod]
         public void AddFuelTest()
         {
-            Tank tank = new Tank(new Fuel(1000, "Petrol"), 1000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 1000, 100, new Businesslogic.GasStation(""));
             tank.AddFuel(100);
             Assert.AreEqual(100, tank.FilledCapacity);
         }
@@ -24,7 +24,7 @@ namespace GasStation.Test
         [TestMethod]
         public void SaveTankTest()
         {
-            Tank tank = new Tank(new Fuel(1000, "Petrol"), 1000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 1000, 100, new Businesslogic.GasStation(""));
             tank.AddFuel(100);
             tank.Save();
             tank.Remove();
@@ -32,7 +32,7 @@ namespace GasStation.Test
         [TestMethod]
         public void UpdateTankTest()
         {
-            Tank tank = new Tank(new Fuel(1000, "Petrol"), 4000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 4000, 100, new Businesslogic.GasStation(""));
             tank.AddFuel(100);
             tank.Save();
             tank.AddFuel(200);
@@ -54,7 +54,7 @@ namespace GasStation.Test
         public void DeleteTankTest()
         {
             DbContext dbContext = new DbContext();
-            Tank tank = new Tank(new Fuel(1000, "Petrol"), 3000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 3000, 100, new Businesslogic.GasStation(""));
             tank.Save();
             int oldTankCount = dbContext.Load<Tank>().Count;
             tank.Remove();
@@ -64,7 +64,7 @@ namespace GasStation.Test
         [TestMethod]
         public void SaveFolderCreated()
         {
-            Tank tank = new Tank(new Fuel(1000, "Petrol"), 3000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 3000, 100, new Businesslogic.GasStation(""));
             tank.Save();
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"fuck\de\jonas\Tank");
             DirectoryInfo directory = new DirectoryInfo(folderPath);
@@ -90,7 +90,7 @@ namespace GasStation.Test
         [ExpectedException(typeof(Exception))]
         public void OverfillTankTest()
         {
-            Tank tank = new Tank(new Fuel(10, "Petrol"), 5000);
+            Tank tank = new Tank(new Fuel(1000, "Petrol"), 5000, 100, new Businesslogic.GasStation(""));
             while (true)
             {
                 tank.AddFuel(1000);
