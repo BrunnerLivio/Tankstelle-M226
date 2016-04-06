@@ -48,15 +48,18 @@ namespace AnttittyFramework
         public void ClearDb()
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(path);
+            if (Directory.Exists(path))
+            {
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
+            }
 
-            foreach (FileInfo file in directoryInfo.GetFiles())
-            {
-                file.Delete();
-            }
-            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
-            {
-                dir.Delete(true);
-            }
         }
     }
 }
