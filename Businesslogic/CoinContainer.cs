@@ -12,7 +12,7 @@ namespace Businesslogic
         private Coin cointype;
         private int amountCoins;
         private int maxAmount;
-        private double idealInventory;
+        
 
         #endregion
         #region Constructors
