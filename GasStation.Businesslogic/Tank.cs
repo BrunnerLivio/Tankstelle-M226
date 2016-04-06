@@ -9,7 +9,6 @@ namespace GasStation.Businesslogic
     [Serializable]
     public class Tank : DbItem
     {
-        #region Membervariables
         private Fuel fuel;
         //In Milliliter
         private int maxCapacity;
@@ -19,7 +18,6 @@ namespace GasStation.Businesslogic
         private int minimumCapacity;
         [NonSerialized]
         private GasStation gasStation;
-        #endregion
         /// <summary>
         /// Creates a new Tank with the given Fueltype and the Maximum Capacity
         /// </summary>
@@ -57,7 +55,6 @@ namespace GasStation.Businesslogic
                 throw new Exception("Not enough Capacity in Tank", new Exception(String.Format("This Tank has a Capacity of {0}", this.maxCapacity)));
             }
         }
-        #region Properties
         /// <summary>
         /// Gives the filled Capacity back in Milliliters
         /// </summary>
@@ -88,7 +85,6 @@ namespace GasStation.Businesslogic
                 return fuel;
             }
         }
-        #endregion
 
     }
 }

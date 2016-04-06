@@ -9,12 +9,9 @@ namespace GasStation.Businesslogic
     [Serializable]
     public class Fuel
     {
-        #region membervariables
         private string name;
         private int rappenPerMilliliters;
-        #endregion
 
-        #region constructors
         /// <summary>
         /// Initializes a Fuel
         /// </summary>
@@ -63,6 +60,5 @@ namespace GasStation.Businesslogic
                 return name;
             }
         }
-        #endregion
     }
 }

@@ -17,7 +17,7 @@ namespace GasStation.Businesslogic
         /// </summary>
         /// <param name="receipt">The Receipt the Costumer should receive</param>
         /// <param name="change">The Change the Costumer should get</param>
-        public CostumerReturn(Receipt receipt, List<Coin> change)
+        internal CostumerReturn(Receipt receipt, List<Coin> change)
         {
             Receipt = receipt;
             Change = change;
