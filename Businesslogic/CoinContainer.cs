@@ -20,6 +20,9 @@ namespace Businesslogic
         {
             this.cointype = cointype;
             this.maxAmount = maxAmount;
+#if DEBUG
+            this.amountCoins = 100;
+#endif
         }
         #endregion
         #region Methods
