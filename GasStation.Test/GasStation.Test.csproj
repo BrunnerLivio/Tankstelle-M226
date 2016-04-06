@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="GasTapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SequenzdiagramTest.cs" />
     <Compile Include="TankTest.cs" />
     <Compile Include="GasStationTest.cs" />
   </ItemGroup>
