@@ -30,7 +30,7 @@ namespace GasStation.Businesslogic
         /// <returns>The Cost of the Transaction</returns>
         public int TellGasTap(GasTap selectedGasTap)
         {
-            if(selectedGasTap.CurrentGasTapTransaction == null)
+            if (selectedGasTap.CurrentGasTapTransaction == null)
             {
                 throw new Exception("Der angegbene Zapfhahn hat gar keine Offene Transaktion");
             }
@@ -73,17 +73,17 @@ namespace GasStation.Businesslogic
                 throw new Exception("Sie haben zu wenig Geld eingeworfen");
             }
             List<Coin> change = GetChange(this.GetValueInput() - selectedGasTap.CurrentGasTapTransaction.Cost);
-            Receipt receipt = new Receipt(gasStation.Name, 
-                                          selectedGasTap.Tank.Fuel.Name, 
-                                          selectedGasTap.Tank.Fuel.RappenPerMilliliters, 
-                                          selectedGasTap.CurrentGasTapTransaction.UsedFuel, 
-                                          selectedGasTap.GasPump.Name, GetValueInput(), 
+            Receipt receipt = new Receipt(gasStation.Name,
+                                          selectedGasTap.Tank.Fuel.Name,
+                                          selectedGasTap.Tank.Fuel.RappenPerMilliliters,
+                                          selectedGasTap.CurrentGasTapTransaction.UsedFuel,
+                                          selectedGasTap.GasPump.Name, GetValueInput(),
                                           DateTime.Now);
             receipt.Save();
             base.AcceptValueInput();
             selectedGasTap.GasPump.UnlockGasTaps();
             selectedGasTap.CompleteTransaction();
-            return new CostumerReturn(receipt ,change);
+            return new CostumerReturn(receipt, change);
         }
 
         /// <summary>
@@ -93,8 +93,7 @@ namespace GasStation.Businesslogic
         {
             get
             {
-
-                return selectedGasTap?.CurrentGasTapTransaction != null;
+                return selectedGasTap != null && selectedGasTap.CurrentGasTapTransaction != null;
             }
         }
     }
